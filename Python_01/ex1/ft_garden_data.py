@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 class Plant:
-    """Stores the data of each plant"""
+    """Stores the data of each plant."""
     def __init__(self, name: str, height: int, age: int) -> None:
-        """Initialize each attribute"""
+        """Initialize each attribute."""
         self.name = name.capitalize()
         self.height = height
         self.age = age
@@ -17,7 +17,7 @@ plant_data = [
 
 
 def ft_garden_data():
-    """Prints each plant's data iteratively"""
+    """Prints each plant's data iteratively."""
     print("=== Garden Plant Registry ===")
     for i in range(3):
         plant = plant_data[i]
