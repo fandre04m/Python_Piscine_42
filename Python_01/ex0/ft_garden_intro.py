@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 def main():
-    name = "Cactus"
-    height = 155
-    age = 478
-    print("=== Welcome to THE Garden ===")
-    print("Plant:", name)
+    name = "rose"
+    height = 25
+    age = 30
+    print("=== Welcome to My Garden ===")
+    print("Plant:", name.capitalize())
     print(f"Height: {height}cm")
     print(f"Age: {age} days\n")
     print("=== End of Program ===")

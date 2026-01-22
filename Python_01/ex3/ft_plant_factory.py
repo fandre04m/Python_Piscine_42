@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env Python3
 
 class Plant:
     """Stores the data of each plant"""
@@ -14,15 +14,3 @@ plant_data = [
     Plant("sunflower", 80, 45),
     Plant("cactus", 15, 120),
 ]
-
-
-def ft_garden_data():
-    """Prints each plant's data iteratively"""
-    print("=== Garden Plant Registry ===")
-    for i in range(3):
-        plant = plant_data[i]
-        print(f"{plant.name}: {plant.height}cm, {plant.age} days old")
-
-
-if __name__ == "__main__":
-    ft_garden_data()
