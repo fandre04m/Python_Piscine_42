@@ -37,7 +37,7 @@ class PrizeFlower(FloweringPlant):
         prize_points: int
     ) -> None:
         super().__init__(name, height, flower_color)
-        self.__prize_points = prize_points
+        self.prize_points = prize_points
 
     def get_info(self) -> str:
         return f"{super().get_info()}, Prize points: {self.prize_points}"
@@ -58,7 +58,7 @@ class Garden:
 
     def help_all_grow(self) -> None:
         print(f"{self.owner} is helping all plants grow...")
-        for plant in self.plants:
+        for plant in self.__plants:
             growth = plant.grow(1)
             self.__total_growth += growth
             print(f"{plant.name} grew {growth}cm")
