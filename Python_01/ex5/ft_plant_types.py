@@ -1,45 +1,53 @@
 #!/usr/bin/env python3
 
 class Plant:
-    """Handles common features between plants."""
-    def __init__(self, name: str, height: int, age: int) -> None:
-        """Initialize each atributte."""
+    """Represents a base plant's values"""
+    def __init__(
+        self,
+        name: str,
+        height: int,
+        age: int
+    ) -> None:
+        """Initialize each attribute."""
         self.name = name.capitalize()
         self.height = height
         self.age = age
 
     def get_info(self) -> str:
-        """Gets child name and base info."""
+        """Obtain plant type and returns info"""
         plt_type = self.__class__.__name__
         return f"{self.name} ({plt_type}): {self.height}cm, {self.age} days"
 
     def get_action(self) -> str:
-        """Placeholder for loop to be safe."""
+        """Placeholder for loop to be safe"""
         return ""
 
 
 class Flower(Plant):
-    """Handles specific data for flowers."""
+    """Represents flower data"""
     def __init__(self, name: str, height: int, age: int, color: str) -> None:
-        """Initialize common and specialized atributtes."""
+        """
+        Initialize especific flower attributes
+        Inherits base Plant data
+        """
         super().__init__(name, height, age)
         self.color = color
 
     def get_info(self) -> str:
-        """Gets base info and Flower info."""
+        """Returns flower data using inheritance"""
         return f"\n{super().get_info()}, {self.color} color"
 
     def bloom(self) -> str:
-        """Makes flowers bloom when called."""
+        """Makes flowers bloom"""
         return f"{self.name} is blooming beautifully!"
 
     def get_action(self) -> str:
-        """Method to get bloom action."""
+        """Triggers the action of blooming"""
         return self.bloom()
 
 
 class Tree(Plant):
-    """Handles specific data for Trees."""
+    """Represents tree data"""
     def __init__(
         self,
         name: str,
@@ -48,26 +56,29 @@ class Tree(Plant):
         trunk_diameter: int,
         shade: int
     ) -> None:
-        """Initialize common and specialized atributtes."""
+        """
+        Initialize especific tree attributes
+        Inherits base Plant data
+        """
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
         self.shade = shade
 
     def get_info(self) -> str:
-        """Gets base info and Tree info"""
+        """Returns tree info using inheritance"""
         return f"\n{super().get_info()}, {self.trunk_diameter}cm diameter"
 
     def produce_shade(self) -> str:
-        """Outputs available shade from tree"""
+        """Makes tree produce shade"""
         return f"{self.name} provides {self.shade} square meters of shade"
 
     def get_action(self) -> str:
-        """Method to get shade action."""
+        """Triggers the producing of shade"""
         return self.produce_shade()
 
 
 class Vegetable(Plant):
-    """Handles specific data for Vegetables."""
+    """Represents vegetable data"""
     def __init__(
         self,
         name: str,
@@ -76,26 +87,29 @@ class Vegetable(Plant):
         harvest_season: str,
         nutritional_value: str
     ) -> None:
-        """Initialize common and specialized atributtes."""
+        """
+        Initialize especific vegetable attributes
+        Inherits base Plant data
+        """
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
 
     def get_info(self) -> str:
-        """Gets base info and Vegetable info."""
+        """Returns vegetable info using inheritance"""
         return f"\n{super().get_info()}, {self.harvest_season} harvest"
 
     def get_nutri_val(self) -> str:
-        """Outputs nutritional value of Vegetable."""
+        """Returns nutritional value of Vegetable"""
         return f"{self.name} is rich in {self.nutritional_value}"
 
     def get_action(self) -> str:
-        """Method to get nutritional value action."""
+        """Triggers nutritional value action"""
         return self.get_nutri_val()
 
 
 def ft_plant_types() -> None:
-    """Creates plant data and calls for display."""
+    """Creates plants and displays information after triggering actions"""
     plants = [
         Flower("rose", 25, 30, "red"),
         Flower("tulip", 15, 12, "pink"),

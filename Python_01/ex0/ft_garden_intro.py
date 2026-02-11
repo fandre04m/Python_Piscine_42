@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-def main():
+def main() -> None:
+    """
+    Stores simple data in variables
+    Displays information about plants in garden
+    """
     name = "rose"
     height = 25
     age = 30

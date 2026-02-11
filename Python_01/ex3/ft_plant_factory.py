@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 class Plant:
-    """Stores the data of each plant."""
+    """Represents each plant"""
     def __init__(self, name: str, height: int, age: int) -> None:
-        """Initialize each attribute."""
+        """Initialize each attribute"""
         self.name = name.capitalize()
         self.height = height
         self.age = age
 
     def get_info(self) -> str:
-        """Get information from stored plants."""
+        """Returns plant information"""
         return f"{self.name} ({self.height}cm, {self.age} days)"
 
 
 def ft_plant_factory() -> None:
-    """Creates plant data and prints them"""
+    """Creates multiple plants and displays them"""
     plant_data = [
         Plant("rose", 25, 30),
         Plant("oak", 200, 365),
