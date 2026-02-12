@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def garden_operations():
+def garden_operations() -> None:
     try:
         int("abc")
     except ValueError as e:
@@ -32,7 +32,7 @@ def garden_operations():
         print("Caught an error, but program continues!")
 
 
-def test_error_types():
+def test_error_types() -> None:
     print("=== Garden Error Types Demo ===\n")
     garden_operations()
     print("\nAll error types tested successfully")
