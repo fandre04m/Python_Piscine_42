@@ -13,7 +13,7 @@ class PlantError(GardenError):
 
 class WaterError(GardenError):
     def __init__(self) -> None:
-        message = f"Not enough water in the tank!"
+        message = "Not enough water in the tank!"
         super().__init__(message)
 
 
