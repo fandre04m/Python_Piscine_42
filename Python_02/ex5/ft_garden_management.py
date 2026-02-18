@@ -84,7 +84,7 @@ class GardenManager:
 def test_garden_management() -> None:
     plant_list = [
             Plant("tomato", 0, 8),
-            Plant("lettucce", 10, 6),
+            Plant("lettuce", 10, 6),
             Plant("", 8, 8)
     ]
     print("=== Garden Management System ===")

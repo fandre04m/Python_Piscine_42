@@ -7,7 +7,8 @@ def garden_operations() -> None:
         print(f"Testing {e.__class__.__name__}...")
         print(f"Caught {e.__class__.__name__}: {e}\n")
     try:
-        10 / 0
+        num_err = 10
+        res = num_err / 0
     except ZeroDivisionError as e:
         print(f"Testing {e.__class__.__name__}...")
         print(f"Caught {e.__class__.__name__}: {e}\n")

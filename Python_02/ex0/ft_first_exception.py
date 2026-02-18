@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def check_temperature(temp_str: str) -> int:
+def check_temperature(temp_str: str) -> int | None:
     print(f"\nTesting temperature: {temp_str}")
     try:
         temp = int(temp_str)
