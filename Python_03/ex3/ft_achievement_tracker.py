@@ -22,6 +22,19 @@ def ft_achievement_tracker() -> None:
     unique = alice.union(bob, charlie)
     print(f"All unique achievements: {unique}")
     print(f"Total unique achievements: {len(unique)}")
+    common = alice.intersection(bob, charlie)
+    print(f"\nCommon to all players: {common}")
+    rare = alice.difference(bob, charlie).union(
+            bob.difference(alice, charlie),
+            charlie.difference(alice, bob)
+    )
+    print(f"Rare achievements (1 player): {rare}")
+    alice_bob = alice.intersection(bob)
+    print(f"\nAlice vs Bob common: {alice_bob}")
+    alice_bob = alice.difference(bob)
+    print(f"Alice unique: {alice_bob}")
+    alice_bob = bob.difference(alice)
+    print(f"Bob unique: {alice_bob}")
 
 
 if __name__ == "__main__":
