@@ -3,7 +3,10 @@
 import sys
 
 
-def percentage_of_total(inv_items: dict, total_qty: int) -> None:
+def percentage_of_total(
+    inv_items: dict,
+    total_qty: int
+) -> None:
     for name, qty in inv_items.items():
         percentage = (qty / total_qty) * 100
         print(
@@ -48,38 +51,59 @@ def get_categories(inv_items: dict) -> None:
             print(f"{category.capitalize()}: {items}")
 
 
+def check_existence(
+    item_name: str,
+    inv_items: dict
+) -> bool:
+    return item_name in inv_items
+
+
 def ft_inventory_system() -> None:
-    print("=== Inventory System Analysis ===")
     inv_items = {}
-    for item in sys.argv[1:]:
-        try:
-            name, qty = item.split(":")
-            inv_items[name] = int(qty)
-        except ValueError:
-            print(f"Invalid format: {item}")
-    qty_list = inv_items.values()
-    total_qty = 0
-    for num in qty_list:
-        total_qty += num
-    print(f"Total items in inventory: {total_qty}")
-    item_types = len(inv_items)
-    print(f"Unique item types: {item_types}")
-    print("\n=== Current Inventory ===")
-    percentage_of_total(inv_items, total_qty)
-    print("\n=== Inventory Statistics ===")
-    get_statistics(inv_items)
-    print("\n=== Item Categories ===")
-    get_categories(inv_items)
-    print("\n=== Management Suggestions ===")
-    restock = []
-    for name, qty in inv_items.items():
-        if qty == 1:
-            restock.append(name)
-    print(f"Restock needed: {restock}")
-    print("\n=== Dictionary Properties Demo ===")
-    print(
-        "Dictionary keys:", ", ".join(inv_items.keys())
-    )
+    if len(sys.argv) > 1:
+        print("=== Inventory System Analysis ===")
+        for item in sys.argv[1:]:
+            try:
+                name, qty = item.split(":")
+                qty = int(qty)
+                if qty < 1:
+                    print(f"Invalid quantity for {item}, must be 1 or more")
+                    continue
+                inv_items[name] = qty
+            except ValueError:
+                print(f"Invalid format: {item}")
+        qty_list = inv_items.values()
+        total_qty = 0
+        for num in qty_list:
+            total_qty += num
+        print(f"Total items in inventory: {total_qty}")
+        item_types = len(inv_items)
+        print(f"Unique item types: {item_types}")
+        print("\n=== Current Inventory ===")
+        percentage_of_total(inv_items, total_qty)
+        print("\n=== Inventory Statistics ===")
+        get_statistics(inv_items)
+        print("\n=== Item Categories ===")
+        get_categories(inv_items)
+        print("\n=== Management Suggestions ===")
+        restock = []
+        for name, qty in inv_items.items():
+            if qty == 1:
+                restock.append(name)
+        print(f"Restock needed: {restock}")
+        print("\n=== Dictionary Properties Demo ===")
+        print("Dictionary keys:", ", ".join(inv_items.keys()))
+        print(
+            "Dictionary values:",
+            ", ".join(str(val) for val in inv_items.values())
+        )
+        check = check_existence("sword", inv_items)
+        print(f"Sample lookup - 'sword' in inventory: {check}")
+    else:
+        print(
+            "Must have at least 1 argument.\n"
+            "Ex: python3 ft_inventory_system <item:quantity> <item:quantity>"
+        )
 
 
 if __name__ == "__main__":
