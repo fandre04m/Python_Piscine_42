@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+
+import sys
+
+
+def percentage_of_total(inv_items: dict, total_qty: int) -> None:
+    for name, qty in inv_items.items():
+        percentage = (qty / total_qty) * 100
+        print(
+            f"{name}: {qty} {'unit' if qty == 1 else 'units'}"
+            f" ({percentage:.1f}%)"
+        )
+
+
+def get_statistics(inv_items: dict) -> None:
+    big = ["name", 0]
+    small = ["name", sys.maxsize]
+    for name, qty in inv_items.items():
+        if qty > big[1]:
+            big = (name, qty)
+        if qty < small[1]:
+            small = (name, qty)
+    print(
+        f"Most abundant: "
+        f"{big[0]} ({big[1]} {'unit' if big[1] == 1 else 'units'})"
+    )
+    print(
+        f"Least abundant: "
+        f"{small[0]} ({small[1]} {'unit' if small[1] == 1 else 'units'})"
+    )
+
+
+def get_categories(inv_items: dict) -> None:
+    categories = {
+        "abundant": {},
+        "moderate": {},
+        "scarce": {}
+    }
+    for name, qty in inv_items.items():
+        if qty < 4:
+            categories["scarce"].update({name: qty})
+        elif qty > 6:
+            categories["abundant"].update({name: qty})
+        else:
+            categories["moderate"].update({name: qty})
+    for category, items in categories.items():
+        if len(items) > 0:
+            print(f"{category.capitalize()}: {items}")
+
+
+def ft_inventory_system() -> None:
+    print("=== Inventory System Analysis ===")
+    inv_items = {}
+    for item in sys.argv[1:]:
+        try:
+            name, qty = item.split(":")
+            inv_items[name] = int(qty)
+        except ValueError:
+            print(f"Invalid format: {item}")
+    qty_list = inv_items.values()
+    total_qty = 0
+    for num in qty_list:
+        total_qty += num
+    print(f"Total items in inventory: {total_qty}")
+    item_types = len(inv_items)
+    print(f"Unique item types: {item_types}")
+    print("\n=== Current Inventory ===")
+    percentage_of_total(inv_items, total_qty)
+    print("\n=== Inventory Statistics ===")
+    get_statistics(inv_items)
+    print("\n=== Item Categories ===")
+    get_categories(inv_items)
+    print("\n=== Management Suggestions ===")
+    restock = []
+    for name, qty in inv_items.items():
+        if qty == 1:
+            restock.append(name)
+    print(f"Restock needed: {restock}")
+    print("\n=== Dictionary Properties Demo ===")
+    print(
+        "Dictionary keys:", ", ".join(inv_items.keys())
+    )
+
+
+if __name__ == "__main__":
+    ft_inventory_system()
