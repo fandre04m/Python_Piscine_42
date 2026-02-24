@@ -58,6 +58,14 @@ def check_existence(
     return item_name in inv_items
 
 
+def check_restock(inv_items: dict) -> list:
+    restock = []
+    for name, qty in inv_items.items():
+        if qty == 1:
+            restock.append(name)
+    return restock
+
+
 def ft_inventory_system() -> None:
     inv_items = {}
     if len(sys.argv) > 1:
@@ -87,10 +95,7 @@ def ft_inventory_system() -> None:
         get_statistics(inv_items)
         print("\n=== Item Categories ===")
         get_categories(inv_items)
-        restock = []
-        for name, qty in inv_items.items():
-            if qty == 1:
-                restock.append(name)
+        restock = check_restock(inv_items)
         if len(restock) > 0:
             print("\n=== Management Suggestions ===")
             print(f"Restock needed: {restock}")
