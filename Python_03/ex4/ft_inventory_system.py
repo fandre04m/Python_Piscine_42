@@ -76,6 +76,8 @@ def ft_inventory_system() -> None:
         total_qty = 0
         for num in qty_list:
             total_qty += num
+        if total_qty == 0:
+            return
         print(f"Total items in inventory: {total_qty}")
         item_types = len(inv_items)
         print(f"Unique item types: {item_types}")
@@ -85,12 +87,13 @@ def ft_inventory_system() -> None:
         get_statistics(inv_items)
         print("\n=== Item Categories ===")
         get_categories(inv_items)
-        print("\n=== Management Suggestions ===")
         restock = []
         for name, qty in inv_items.items():
             if qty == 1:
                 restock.append(name)
-        print(f"Restock needed: {restock}")
+        if len(restock) > 0:
+            print("\n=== Management Suggestions ===")
+            print(f"Restock needed: {restock}")
         print("\n=== Dictionary Properties Demo ===")
         print("Dictionary keys:", ", ".join(inv_items.keys()))
         print(
