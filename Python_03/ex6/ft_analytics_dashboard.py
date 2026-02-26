@@ -17,7 +17,72 @@ def ft_list_comprehensions() -> None:
     )
 
 
-def ft_dict_comprehensions() -> None:
+def ft_dict_comprehensions(players: dict) -> None:
+    scores = {
+        "alicya": 2350,
+        "robert": 1875,
+        "jean": 999,
+        "frank": 1337,
+        "jules": 9000,
+        "arthur": 2470
+    }
+    player_scores = {name: data["score"] for name, data in players.items()}
+    score_categ = {
+        "high": sum(1 for score in scores.values() if score > 2000),
+        "medium": sum(1 for score in scores.values() if 1000 <= score <= 2000),
+        "low": sum(1 for score in scores.values() if score < 1000)
+    }
+    achiev_num = {
+        name: len(data["achievements"]) for name, data in players.items()
+    }
+    print(
+        f"Player scores: {player_scores}\n"
+        f"Score categories: {score_categ}\n"
+        f"Achievement counts: {achiev_num}\n"
+    )
+
+
+def ft_set_comprehensions() -> None:
+    players = [
+        "alice",
+        "bob",
+        "charlie",
+        "diana",
+        "alice",
+        "charlie"
+    ]
+    achievements = [
+        "treasure_hunter",
+        "boss_slayer",
+        "level_10",
+        "first_kill",
+        "treasure_hunter",
+        "first_kill",
+        "level_10"
+    ]
+    regions = {
+        "north": "active",
+        "central": "active",
+        "east": "active",
+        "west": "stand-by"
+    }
+    unique_players = {player for player in players}
+    unique_achiev = {achiev for achiev in achievements}
+    active_regions = {
+        region for region, state in regions.items() if state == "active"
+    }
+    print(
+        f"Unique players: {unique_players}\n"
+        f"Unique achievements: {unique_achiev}\n"
+        f"Active regions: {active_regions}\n"
+    )
+
+
+def ft_analytics_dashboard() -> None:
+    print("=== Game Analytics Dashboard ===\n")
+    print("=== List Comprehension Examples ===")
+    ft_list_comprehensions()
+    print("=== Dict Comprehension Examples ===")
     players = {
         "alice": {
             "score": 2300,
@@ -53,39 +118,30 @@ def ft_dict_comprehensions() -> None:
             "special scores": [867, 2500]
         }
     }
-    scores = {
-        "alicya": 2350,
-        "robert": 1875,
-        "jean": 999,
-        "frank": 1337,
-        "jules": 9000,
-        "arthur": 2470
-    }
-    player_scores = {name: data["score"] for name, data in players.items()}
-    score_categ = {
-        "high": sum(1 for score in scores.values() if score > 2000),
-        "medium": sum(1 for score in scores.values() if 1000 <= score <= 2000),
-        "low": sum(1 for score in scores.values() if score < 1000)
-    }
-    achiev_num = {
-        name: len(data["achievements"]) for name, data in players.items()
-    }
+    ft_dict_comprehensions(players)
+    print("=== Set comprehension Examples ===")
+    ft_set_comprehensions()
+    print("=== Combined Analysis ===")
+    total_players = len([name for name in players.keys()])
+    tot_uniq_achiev = len({
+            achiev for data in players.values()
+            for achiev in data["achievements"]
+    })
+    average_score = sum([
+        data["score"] for data in players.values()
+    ]) / len(players)
+    player_stats = [
+        (data["score"], name, len(data["achievements"]))
+        for name, data in players.items()
+    ]
+    top_score, top_name, top_achiev = max(player_stats)
     print(
-        f"Player scores: {player_scores}\n"
-        f"Score categories: {score_categ}\n"
-        f"Achievement counts: {achiev_num}\n"
+        f"Total players: {total_players}\n"
+        f"Total unique achievements: {tot_uniq_achiev}\n"
+        f"Average score: {average_score:.1f}\n"
+        f"Top perfomer: {top_name} "
+        f"({top_score} points, {top_achiev} achievements)"
     )
-
-
-# def ft_set_comprehensions() -> None:
-
-
-def ft_analytics_dashboard() -> None:
-    print("=== Game Analytics Dashboard ===\n")
-    print("=== List Comprehension Examples ===")
-    ft_list_comprehensions()
-    print("=== Dict Comprehension Examples ===")
-    ft_dict_comprehensions()
 
 
 if __name__ == "__main__":
