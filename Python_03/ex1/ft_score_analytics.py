@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+import sys
+
 
 def ft_score_analytics() -> None:
-    import sys
     print("=== Garden Score Analytics ===")
     scores = []
     if len(sys.argv) > 1:
@@ -11,15 +12,17 @@ def ft_score_analytics() -> None:
                 scores.append(score)
             except ValueError:
                 print(f"'{arg}' -> Not a valid score!")
-        print(
-            f"Scores processed: {scores}\n"
-            f"Total players: {len(sys.argv) - 1}\n"
-            f"Total score: {sum(scores)}\n"
-            f"Average score: {sum(scores) / len(scores)}\n"
-            f"High score: {max(scores)}\n"
-            f"Low score: {min(scores)}\n"
-            f"Score range: {max(scores) - min(scores)}"
-        )
+                continue
+        if len(scores) >= 1:
+            print(
+                f"Scores processed: {scores}\n"
+                f"Total players: {len(scores)}\n"
+                f"Total score: {sum(scores)}\n"
+                f"Average score: {sum(scores) / len(scores)}\n"
+                f"High score: {max(scores)}\n"
+                f"Low score: {min(scores)}\n"
+                f"Score range: {max(scores) - min(scores)}"
+            )
     else:
         print(
             f"No scores provided. Usage: pyhton3 {sys.argv[0]} "

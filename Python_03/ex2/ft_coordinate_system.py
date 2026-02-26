@@ -5,7 +5,10 @@ import math
 def coord_parser(coord_str: str) -> tuple:
     coord_list = coord_str.split(",")
     try:
-        parsed_list = [int(c) for c in coord_list]
+        parsed_list = []
+        for coord in coord_list:
+            coord = int(coord)
+            parsed_list.append(coord)
         coord_tuple = tuple(parsed_list)
         print(f"Parsed position: {coord_tuple}")
         return coord_tuple

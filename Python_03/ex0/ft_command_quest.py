@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+import sys
+
 
 def ft_command_quest() -> None:
-    import sys
     print("=== Command Quest ===")
     if len(sys.argv) > 1:
         print(f"Program name: {sys.argv[0]}")
@@ -10,11 +11,10 @@ def ft_command_quest() -> None:
         for arg in sys.argv[1:]:
             print(f"Argument {i}: {arg}")
             i += 1
-        print(f"Total arguments: {len(sys.argv)}")
     else:
         print("No arguments provided!")
         print(f"Program name: {sys.argv[0]}")
-        print(f"Total arguments: {len(sys.argv)}")
+    print(f"Total arguments: {len(sys.argv)}")
 
 
 if __name__ == "__main__":
