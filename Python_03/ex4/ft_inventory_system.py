@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import sys
 
 
@@ -51,13 +50,6 @@ def get_categories(inv_items: dict) -> None:
             print(f"{category.capitalize()}: {items}")
 
 
-def check_existence(
-    item_name: str,
-    inv_items: dict
-) -> bool:
-    return item_name in inv_items
-
-
 def check_restock(inv_items: dict) -> list:
     restock = []
     for name, qty in inv_items.items():
@@ -98,14 +90,14 @@ def ft_inventory_system() -> None:
         restock = check_restock(inv_items)
         if len(restock) > 0:
             print("\n=== Management Suggestions ===")
-            print(f"Restock needed: {restock}")
+            print("Restock needed:", end=" ")
+            print(*restock, sep=", ")
         print("\n=== Dictionary Properties Demo ===")
-        print("Dictionary keys:", ", ".join(inv_items.keys()))
-        print(
-            "Dictionary values:",
-            ", ".join(str(val) for val in inv_items.values())
-        )
-        check = check_existence("sword", inv_items)
+        print("Dictionary keys:", end=" ")
+        print(*inv_items.keys(), sep=", ")
+        print("Dictionary values:", end=" ")
+        print(*inv_items.values(), sep=", ")
+        check = bool(inv_items.get("sword"))
         print(f"Sample lookup - 'sword' in inventory: {check}")
     else:
         print(

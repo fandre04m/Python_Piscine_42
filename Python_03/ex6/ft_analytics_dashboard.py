@@ -122,7 +122,7 @@ def ft_analytics_dashboard() -> None:
     print("=== Set comprehension Examples ===")
     ft_set_comprehensions()
     print("=== Combined Analysis ===")
-    total_players = len([name for name in players.keys()])
+    total_players = len(players)
     tot_uniq_achiev = len({
             achiev for data in players.values()
             for achiev in data["achievements"]

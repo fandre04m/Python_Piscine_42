@@ -7,8 +7,7 @@ def coord_parser(coord_str: str) -> tuple:
     try:
         parsed_list = []
         for coord in coord_list:
-            coord = int(coord)
-            parsed_list.append(coord)
+            parsed_list.append(int(coord))
         coord_tuple = tuple(parsed_list)
         print(f"Parsed position: {coord_tuple}")
         return coord_tuple
@@ -50,7 +49,8 @@ def ft_coordinate_system() -> None:
     try:
         coord_parser(bad_str)
     except ValueError as e:
-        print(f"Error parsing coordinates: {e}")
+        message, = e.args
+        print(f"Error parsing coordinates: {message}")
     print("\nUnpacking demonstration:")
     curr_pos = (3, 4, 0)
     x, y, z = curr_pos
