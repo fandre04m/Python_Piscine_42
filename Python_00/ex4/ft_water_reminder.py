@@ -3,4 +3,4 @@ def ft_water_reminder():
     if days_passed > 2:
         print("Water the plants!")
     else:
-        print("Plants are fine.")
+        print("Plants are fine")
