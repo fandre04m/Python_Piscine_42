@@ -3,13 +3,11 @@ import sys
 
 
 def ft_stream_management() -> None:
-    print("=== CYBER ARCHIVES - COMMUNICATION SYSTEM ===")
-    print()
+    print("=== CYBER ARCHIVES - COMMUNICATION SYSTEM ===\n")
     arch_id = input("Input Stream active. Enter archivist ID: ")
     stat_report = input("Input Stream active. Enter status report: ")
-    print()
     print(
-        f"[STANDARD] Archive status from {arch_id}: {stat_report}",
+        f"\n[STANDARD] Archive status from {arch_id}: {stat_report}",
         file=sys.stdout
     )
     print(
@@ -17,8 +15,7 @@ def ft_stream_management() -> None:
         file=sys.stderr
     )
     print("[STANDARD] Data transmission complete")
-    print()
-    print("Three-channel communication test successful.")
+    print("\nThree-channel communication test successful.")
 
 
 if __name__ == "__main__":
