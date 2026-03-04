@@ -14,7 +14,7 @@ def ft_vault_security() -> None:
             s_file.write(message)
             print("SECURE PRESERVATION:")
             print(message)
-            print("Vault automatically sealed upon completion")
+        print("Vault automatically sealed upon completion")
     except OSError as e:
         print(e)
         print("Vault automatically sealed after error")

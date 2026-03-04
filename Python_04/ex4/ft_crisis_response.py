@@ -5,7 +5,7 @@ def error_handler(file_name: str) -> None:
     try:
         with open(file_name) as file:
             print(f"ROUTINE ACCESS: Attempting access to '{file.name}'...")
-            print(f"SUCCESS: Archive recovered - '{file.read()}'")
+            print(f"SUCCESS: Archive recovered - \''{file.read()}'\'")
             print("STATUS: Normal operations resumed")
     except FileNotFoundError:
         print(f"CRISIS ALERT: Attempting access to '{file_name}'...")
@@ -14,9 +14,11 @@ def error_handler(file_name: str) -> None:
     except PermissionError:
         print(f"CRISIS ALERT: Attempting access to '{file_name}'...")
         print("RESPONSE: Security protocols deny access")
-        print("STATUS: Crisis handled, security mantained")
+        print("STATUS: Crisis handled, security maintained")
     except OSError as e:
-        print(e)
+        print(f"CRISIS ALERT: Attempting access to '{file_name}'...")
+        print(f"RESPONSE: {e}")
+        print("STATUS: Crisis handled, all systems green")
 
 
 def ft_crisis_response() -> None:
