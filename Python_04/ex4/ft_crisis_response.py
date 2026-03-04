@@ -3,9 +3,9 @@
 
 def error_handler(file_name: str) -> None:
     try:
-        with open(file_name) as file:
-            print(f"ROUTINE ACCESS: Attempting access to '{file.name}'...")
-            print(f"SUCCESS: Archive recovered - \''{file.read()}'\'")
+        with open(file_name) as archive:
+            print(f"ROUTINE ACCESS: Attempting access to '{archive.name}'...")
+            print(f"SUCCESS: Archive recovered - \''{archive.read()}'\'")
             print("STATUS: Normal operations resumed")
     except FileNotFoundError:
         print(f"CRISIS ALERT: Attempting access to '{file_name}'...")
