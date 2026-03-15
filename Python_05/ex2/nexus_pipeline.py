@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from typing import Any, List, Dict, Union, Optional, Protocol
 from abc import ABC, abstractmethod
+import json
 
 
 class ProcessingStage(Protocol):
@@ -61,12 +62,17 @@ class ProcessingPipeline(ABC):
         pass
 
 
-# class JSONAdapter(ProcessingPipeline):
-#     def __init__(self, pipeline_id: Any) -> None:
-#
-#     def process(self, data: Any) -> Union[str, Any]:
-#
-#
+class JSONAdapter(ProcessingPipeline):
+    def __init__(self, pipeline_id: str) -> None:
+        super().__init__(pipeline_id)
+
+    def process(self, data: Any) -> Union[str, Any]:
+        if not isinstance(data, str):
+            raise ValueError("JSONAdapter expects a JSON string!")
+        json_data = json.loads(data)
+        return self.run_stages(json_data)
+
+
 # class CSVAdapter(ProcessingPipeline):
 #     def __init__(self, pipeline_id: Any) -> None:
 #
