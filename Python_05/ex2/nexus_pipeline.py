@@ -11,13 +11,11 @@ class ProcessingStage(Protocol):
 
 class InputStage:
     def process(self, data: Any) -> Dict[str, Any]:
-        if isinstance(data, dict):
-            validation: Dict[str, Any] = data
-        else:
-            validation: Dict[str, Any] = {"raw": data}
-        validation["stage"] = "input"
-        validation["valid"] = True
-        return validation
+        if not isinstance(data, dict):
+            data = {"raw": data}
+        data["stage"] = "input"
+        data["valid"] = True
+        return data
 
 
 class TransformStage:
@@ -30,6 +28,9 @@ class TransformStage:
             temp = float(data.get("value"))
             data["range_status"] = ("Normal range" if 0.0 <= temp <= 50.0
                                     else "Critical range")
+        # Doing something with CSV data
+        if data.get("user_action"):
+            data["num_of_actions"] = 1
         return data
 
 
@@ -42,6 +43,10 @@ class OutputStage:
             unit = data.get("unit")
             status = data.get("range_status")
             return f"Processed temperature reading: {value}°{unit} ({status})"
+        # Output formatting for CSV data
+        if data.get("num_of_actions"):
+            act = data.get("num_of_actions")
+            return f"User activity logged: {act} actions processed"
         return "Data processed successfully"
 
 
@@ -56,6 +61,7 @@ class ProcessingPipeline(ABC):
     def run_stages(self, data: Any) -> Any:
         for stage in self.stages:
             data = stage.process(data)
+        return data
 
     @abstractmethod
     def process(self, data: Any) -> Union[str, Any]:
@@ -68,26 +74,47 @@ class JSONAdapter(ProcessingPipeline):
 
     def process(self, data: Any) -> Union[str, Any]:
         if not isinstance(data, str):
-            raise ValueError("JSONAdapter expects a JSON string!")
-        json_data = json.loads(data)
-        return self.run_stages(json_data)
+            raise ValueError("JSONAdapter expects a JSON string")
+        try:
+            json_data = json.loads(data)
+            return self.run_stages(json_data)
+        except ValueError as e:
+            return f"Error detected: {e}"
 
 
-# class CSVAdapter(ProcessingPipeline):
-#     def __init__(self, pipeline_id: Any) -> None:
-#
-#     def process(self, data: Any) -> Union[str, Any]:
-#
-#
+class CSVAdapter(ProcessingPipeline):
+    def __init__(self, pipeline_id: str) -> None:
+        super().__init__(pipeline_id)
+
+    def process(self, data: Any) -> Union[str, Any]:
+        if not isinstance(data, str):
+            raise ValueError("CSVAdapter expetcs a CSV string")
+        user_action = [act for act in data.split(",")]
+        csv_data = {"user_action": user_action}
+        return self.run_stages(csv_data)
+
+
 # class StreamAdapter(ProcessingPipeline):
 #     def __init__(self, pipeline_id: Any) -> None:
 #
 #     def process(self, data: Any) -> Union[str, Any]:
 #
 #
+class NexusManager:
+    def run_pipeline(self, pipeline: ProcessingPipeline, data: Any) -> Any:
+        return pipeline.process(data)
+
+
+def add_all_stages(pipeline: ProcessingPipeline) -> None:
+    pipeline.add_stage(InputStage())
+    pipeline.add_stage(TransformStage())
+    pipeline.add_stage(OutputStage())
+
+
 def ft_nexus_pipeline() -> None:
     print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===\n")
     print("Initializing Nexus Manager...")
+    manager = NexusManager()
     print("Pipeline capacity: 1000 streams/second\n")
     print(
         "Creating Data Processing Pipeline...\n"
@@ -95,18 +122,23 @@ def ft_nexus_pipeline() -> None:
         "Stage 2: Data transformation and enrichment\n"
         "Stage 3: Output formatting and delivery\n"
     )
+    json_pipe = JSONAdapter("JSON_001")
+    csv_pipe = CSVAdapter("CSV_001")
+    add_all_stages(json_pipe)
+    add_all_stages(csv_pipe)
     print("=== Multi-Format Data Processing ===\n")
     print("Processing JSON data through pipeline...")
-    raw_dict = {"sensor": "temp", "value": 23.5, "unit": "C"}
-    print(f"Input: {raw_dict}")
-    test = InputStage()
-    res = test.process(raw_dict)
+    raw_json = '{"sensor": "temp", "value": 23.5, "unit": "C"}'
+    print(f"Input: {raw_json}")
     print("Transform: Enriched with metadata and validation")
-    test = TransformStage()
-    data = test.process(res)
-    test = OutputStage()
-    msg = test.process(data)
-    print(f"Output: {msg}")
+    print(f"Output: {manager.run_pipeline(json_pipe, raw_json)}")
+    print()
+    print("Processing CSV data through same pipeline...")
+    raw_csv = "user,action,timestamp"
+    print(f"Input: \"{raw_csv}\"")
+    print("Transform: Parsed and structured data")
+    print(f"Output: {manager.run_pipeline(csv_pipe, raw_csv)}")
+    print()
 
 
 if __name__ == "__main__":
