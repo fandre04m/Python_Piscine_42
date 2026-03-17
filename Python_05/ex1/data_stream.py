@@ -181,15 +181,19 @@ class StreamProcessor:
         self.streams.append(stream)
 
     def process_and_stats(
-        self, data_batch: List[Any]
-    ) -> Dict[str, Union[str, int, float]]:
+        self,
+        data_batch: List[Any],
+        stats_list: List[Dict[str, Union[str, int, float]]]
+    ) -> None:
+        errors: List[Exception] = []
         for stream in self.streams:
             try:
                 stream.process_batch(data_batch)
-                return stream.get_stats()
-            except ValueError:
-                pass
-        raise ValueError(f"No data stream could process {data_batch}!")
+                stats_list.append(stream.get_stats())
+            except ValueError as e:
+                errors.append(e)
+        if not stats_list:
+            raise ValueError(f"{errors[0]}")
 
     def filter_all(
         self,
@@ -214,15 +218,18 @@ def poly_processing(processor: StreamProcessor) -> None:
         ["login", "error", "logout"]
     ]
     print("\nBatch 1 Results:")
-    for batch in batch_1:
-        try:
-            stats = processor.process_and_stats(batch)
+    stats_list: List[Dict[str, Union[str, int, float]]] = []
+    try:
+        for batch in batch_1:
+            processor.process_and_stats(batch, stats_list)
+    except ValueError as e:
+        print(e)
+    if stats_list:
+        for stats in stats_list:
             print(
                 f"- {stats['batch_type']} data: {stats['items_processed']} "
                 f"{stats['units']} processed"
             )
-        except ValueError as e:
-            print(e)
     print("\nStream filtering active: High-priority data only")
     filters = ["critical", "large"]
     filter_msg = []

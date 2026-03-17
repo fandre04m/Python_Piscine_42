@@ -26,7 +26,7 @@ class NumericProcessor(DataProcessor):
         for num in data:
             total_sum += num
             qty += 1
-            avg = total_sum / qty
+        avg = total_sum / qty
         return (
             f"Processed {qty} numeric values, sum={total_sum}, avg={avg:.1f}"
         )
@@ -59,6 +59,8 @@ class TextProcessor(DataProcessor):
 
     def validate(self, data: Any) -> bool:
         if data.__class__ != str:
+            return False
+        if data.startswith("ERROR:") or data.startswith("INFO:"):
             return False
         return True
 
@@ -101,15 +103,15 @@ def polymorphic_demo() -> None:
         "Hello world!",
         "INFO: System ready"
     ]
-    print("\nProcessing multiple data types trough same interface...")
+    print("\nProcessing multiple data types through same interface...")
     result_iter = 0
     for data in data_types:
         for processor in processors:
             if processor.validate(data):
-                result_iter += 1
                 result = processor.process(data)
+                result_iter += 1
                 print(f"Result {result_iter}: {result}")
-                processors.remove(processor)
+                break
 
 
 def stream_processor() -> None:
