@@ -15,8 +15,14 @@ def ft_sacred_scroll() -> None:
     )
     print()
     print("Testing package-level access (controlled by __init__.py):")
-    print(f"alchemy.create_fire(): {alchemy.create_fire()}")
-    print(f"alchemy.create_water(): {alchemy.create_water()}")
+    try:
+        print(f"alchemy.create_fire(): {alchemy.create_fire()}")
+    except AttributeError as e:
+        print(f"alchemy.create_fire(): {e.__class__.__name__} - not exposed")
+    try:
+        print(f"alchemy.create_water(): {alchemy.create_water()}")
+    except AttributeError as e:
+        print(f"alchemy.create_water(): {e.__class__.__name__} - not exposed")
     try:
         print(f"alchemy.create_earth(): {alchemy.create_earth()}")
     except AttributeError as e:

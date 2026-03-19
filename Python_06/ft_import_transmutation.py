@@ -2,7 +2,7 @@
 
 
 def ft_import_transmutation() -> None:
-    print("\n=== Import Transmutaion Mastery ===\n")
+    print("\n=== Import Transmutation Mastery ===\n")
     print("Method 1 - Full module import:")
     import alchemy.elements
     print(f"alchemy.elements.create_fire(): {alchemy.elements.create_fire()}")

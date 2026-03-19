@@ -23,5 +23,5 @@ def invisibility_potion() -> str:
 def wisdom_potion() -> str:
     return (
         f"Wisdom potion brewed with all elements: "
-        f"{create_fire(), create_water(), create_earth(), create_air()}"
+        f"{create_fire()}, {create_water()}, {create_earth()}, {create_air()}"
     )
