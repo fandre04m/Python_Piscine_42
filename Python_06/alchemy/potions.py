@@ -12,16 +12,3 @@ def strength_potion() -> str:
     return (
         f"Strength potion brewed with '{create_fire()}' and '{create_water()}'"
     )
-#
-#
-# def invisibility_potion() -> str:
-#     return (
-#         f"Invisibility potion brewed with {create_air()} and {create_water()}"
-#     )
-#
-#
-# def wisdom_potion() -> str:
-#     return (
-#         f"Wisdom potion brewed with all elements: "
-#         f"{create_fire()}, {create_water()}, {create_earth()}, {create_air()}"
-#     )

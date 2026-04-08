@@ -5,7 +5,6 @@ from typing import List
 def validate_ingredients(ingredients: str) -> str:
     valid_ingr: List[str] = light_spell_allowed_ingredients()
     ingr_list: List[str] = ingredients.lower().split(", ")
-    ret = ""
     if not ingr_list:
         ret = ""
     elif len(ingr_list) == 1:

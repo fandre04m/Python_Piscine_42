@@ -1,5 +1,5 @@
-from typing import List
 from .dark_validator import validate_ingredients
+from typing import List
 
 
 def dark_spell_allowed_ingredients() -> List[str]:
