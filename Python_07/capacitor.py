@@ -33,20 +33,16 @@ def tranform_test(factory: TransformCreatureFactory) -> None:
     if isinstance(base, TransformCapability):
         print(base.transform())
     print(base.attack())
-    print(base.attack())
     if isinstance(base, TransformCapability):
         print(base.revert())
-    print(base.attack())
     print(" evolved:")
     print(evo.describe())
     print(evo.attack())
     if isinstance(evo, TransformCapability):
         print(evo.transform())
     print(evo.attack())
-    print(evo.attack())
     if isinstance(evo, TransformCapability):
         print(evo.revert())
-    print(evo.attack())
 
 
 def main() -> None:
