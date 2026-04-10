@@ -15,9 +15,18 @@ def factory_test(factory: ex0.CreatureFactory) -> None:
 
 
 def battle_test(
-    mob_1: ex0.CreatureFactory,
-    mob_2: ex0.CreatureFactory
+    f_factory: ex0.CreatureFactory,
+    a_factory: ex0.CreatureFactory
 ) -> None:
+    print("Testing battle")
+    flameling = f_factory.create_base()
+    aquabub = a_factory.create_base()
+    print(flameling.describe())
+    print(" vs.")
+    print(aquabub.describe())
+    print(" fight!")
+    print(flameling.attack())
+    print(aquabub.attack())
     return
 
 
@@ -26,6 +35,7 @@ def main() -> None:
     aqua_factory = ex0.AquaFactory()
     factory_test(flame_factory)
     factory_test(aqua_factory)
+    battle_test(flame_factory, aqua_factory)
 
 
 if __name__ == "__main__":

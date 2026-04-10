@@ -14,7 +14,6 @@ class Creature(ABC):
         if "/" in self.c_type:
             type_1, type_2 = self.c_type.split("/")
             t = type_1.capitalize() + "/" + type_2.capitalize()
-            print(t)
         else:
             t = self.c_type.capitalize()
         return f"{self.c_name} is a {t} type Creature"
