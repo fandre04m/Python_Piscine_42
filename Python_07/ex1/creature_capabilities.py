@@ -9,6 +9,10 @@ class HealCapability(ABC):
 
 
 class TransformCapability(ABC):
+    def __init__(self) -> None:
+        self.is_transformed: bool = False
+        super().__init__()
+
     @abstractmethod
     def transform(self) -> str:
         pass
@@ -43,7 +47,6 @@ class Bloomelle(Creature, HealCapability):
 class Shiftling(Creature, TransformCapability):
     def __init__(self) -> None:
         super().__init__("shiftling", "normal")
-        self.is_transformed = False
 
     def attack(self) -> str:
         if self.is_transformed:
@@ -62,7 +65,6 @@ class Shiftling(Creature, TransformCapability):
 class Morphagon(Creature, TransformCapability):
     def __init__(self) -> None:
         super().__init__("morphagon", "normal/dragon")
-        self.is_transformed = False
 
     def attack(self) -> str:
         if self.is_transformed:

@@ -30,14 +30,14 @@ class NormalStrategy(BattleStrategy):
         return isinstance(creature, Creature)
 
 
-class AgressiveStrategy(BattleStrategy):
+class AggressiveStrategy(BattleStrategy):
     def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
             raise BattleError(
                 f"Invalid Creature '{creature.__class__.__name__}' "
                 "for this agressive strategy"
             )
-        if hasattr(creature, 'transform') and hasattr(creature, 'revert'):
+        if isinstance(creature, TransformCapability):
             print(creature.transform())
             print(creature.attack())
             print(creature.revert())
@@ -53,9 +53,9 @@ class DefensiveStrategy(BattleStrategy):
                 f"Invalid Creature '{creature.__class__.__name__}' "
                 "for this defensive strategy"
             )
-        if hasattr(creature, 'heal'):
+        if isinstance(creature, HealCapability):
             print(creature.attack())
-            print(creature.heal())
+            print(creature.heal('itself'))
 
     def is_valid(self, creature: Creature) -> bool:
         return isinstance(creature, HealCapability)

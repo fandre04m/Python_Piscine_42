@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 class Creature(ABC):
     def __init__(self, c_name: str, c_type: str) -> None:
+        super().__init__()
         self.c_name: str = c_name.capitalize()
         self.c_type: str = c_type
 
