@@ -13,7 +13,7 @@ from ex2 import (
 BattleSetup = Tuple[CreatureFactory, BattleStrategy]
 
 
-def run_tournament(t_setup: List[BattleSetup]):
+def battle(t_setup: List[BattleSetup]):
     print("*** Tournament ***")
     print(f"{len(t_setup)} opponents involved")
     opponents = []
@@ -45,7 +45,7 @@ def main() -> None:
         (HealingCreatureFactory(), DefensiveStrategy())
     ]
     print(" [ (Flameling+Normal), (Healing+Defensive) ]")
-    run_tournament(t0_setup)
+    battle(t0_setup)
     print()
     print("-" * 10 + " Tournament 1 (error) " + "-" * 10)
     t1_setup = [
@@ -53,7 +53,7 @@ def main() -> None:
         (HealingCreatureFactory(), DefensiveStrategy())
     ]
     print(" [ (Flameling+Agressive), (Healing+Defensive) ]")
-    run_tournament(t1_setup)
+    battle(t1_setup)
     print()
     print("-" * 10 + " Tournament 2 (multiple) " + "-" * 10)
     t2_setup = [
@@ -62,7 +62,7 @@ def main() -> None:
         (TransformCreatureFactory(), AggressiveStrategy())
     ]
     print(" [ (Aquabub+Normal), (Healing+Defensive), (Transform+Aggressive) ]")
-    run_tournament(t2_setup)
+    battle(t2_setup)
 
 
 if __name__ == "__main__":
