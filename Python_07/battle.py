@@ -33,9 +33,12 @@ def battle_test(
 def main() -> None:
     flame_factory = ex0.FlameFactory()
     aqua_factory = ex0.AquaFactory()
-    factory_test(flame_factory)
-    factory_test(aqua_factory)
-    battle_test(flame_factory, aqua_factory)
+    try:
+        factory_test(flame_factory)
+        factory_test(aqua_factory)
+        battle_test(flame_factory, aqua_factory)
+    except Exception as e:
+        print(f"An error as occurred: {e}")
 
 
 if __name__ == "__main__":

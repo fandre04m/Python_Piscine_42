@@ -48,9 +48,12 @@ def tranform_test(factory: TransformCreatureFactory) -> None:
 def main() -> None:
     h_factory = HealingCreatureFactory()
     t_factory = TransformCreatureFactory()
-    healing_test(h_factory)
-    print()
-    tranform_test(t_factory)
+    try:
+        healing_test(h_factory)
+        print()
+        tranform_test(t_factory)
+    except Exception as e:
+        print(f"An error as occurred: {e}")
 
 
 if __name__ == "__main__":
