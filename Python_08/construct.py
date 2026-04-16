@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 import sys
 import os
+import site
 
 
 def inside_venv() -> None:
     print("\nMATRIX STATUS: Welcome to the construct\n")
+    print(f"Current Python: {sys.executable}")
+    print(f"Virtual Environment: {os.path.basename(sys.prefix)}")
+    print(f"Environment Path: {sys.prefix}")
+    print(
+        "\nSUCCESS: You're in an isolated environment!\n"
+        "Safe to install packages without affecting the global system.\n"
+    )
+    print(f"Package installation path:\n{site.getsitepackages()[0]}")
 
 
 def outside_venv() -> None:
@@ -25,7 +34,7 @@ def outside_venv() -> None:
     )
 
 
-def main() -> None:
+def check_if_venv() -> None:
     is_venv = (sys.prefix != sys.base_prefix)
     if is_venv:
         inside_venv()
@@ -34,4 +43,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    check_if_venv()
