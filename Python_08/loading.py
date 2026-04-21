@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import sys
 import importlib
-from importlib.metadata import version, PackageNotFoundError
+from importlib.metadata import version
+from typing import List
 
 
-def compare_dependencies() -> None:
+def compare_dependencies(installed_vers: List[str]) -> None:
     print("Comparing dependency management (pip vs Poetry)...\n")
 
     pip_deps = {}
@@ -31,30 +32,16 @@ def compare_dependencies() -> None:
                         poetry_deps[name] = ver
     except FileNotFoundError:
         print("File 'pyproject.toml' not found")
-
-    print("PIP (requirements.txt):")
-    for pkg, ver in pip_deps.items():
-        print(f"  {pkg}=={ver}")
-
-    print("\nPOETRY (pyproject.toml):")
-    for pkg, ver in poetry_deps.items():
-        print(f"  {pkg}={ver}")
-
-    print("\nCURRENT ENVIRONMENT:")
-    for pkg in set(pip_deps) | set(poetry_deps):
-        try:
-            installed_ver = version(pkg)
-            print(f"  {pkg}=={installed_ver}")
-        except PackageNotFoundError:
-            print(f"  {pkg} NOT INSTALLED")
-
-    print("\nDIFFERENCES:")
-    for pkg in pip_deps:
-        if pkg not in poetry_deps:
-            print(f"  {pkg} only in pip requirements")
-    for pkg in poetry_deps:
-        if pkg not in pip_deps:
-            print(f"  {pkg} only in poetry config")
+    # Print based on current environment
+    path = sys.prefix
+    if "pypoetry/" in path:
+        print("CURRENT ENVIRONMENT - POETRY (pyproject.toml):")
+        for (pkg, ver), i_ver in zip(poetry_deps.items(), installed_vers):
+            print(f" - Required: {pkg}={ver} --> Installed version: {i_ver}")
+    else:
+        print("CURRENT ENVIRONMENT - PIP (requirements.txt):")
+        for (pkg, ver), i_ver in zip(pip_deps.items(), installed_vers):
+            print(f"Required: {pkg}=={ver} --> Installed version: {i_ver}")
 
 
 def matrix_organizer() -> None:
@@ -117,12 +104,14 @@ def main() -> None:
                 "To install with poetry: 'poetry install'"
             )
         else:
+            versions = []
             for package, status in dependencies.items():
                 ver = version(package)
+                versions.append(ver)
                 print(f"[OK] {package} ({ver}) - {status}")
             print()
             matrix_organizer()
-            compare_dependencies()
+            compare_dependencies(versions)
 
 
 if __name__ == "__main__":
