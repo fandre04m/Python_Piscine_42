@@ -77,7 +77,6 @@ def main() -> None:
         "pandas": "Data manipulation ready",
         "matplotlib": "Visualization ready"
     }
-    missing = []
     if not (sys.prefix != sys.base_prefix):
         print("\nMATRIX STATUS: You're still plugged in\n")
         print(
@@ -87,8 +86,9 @@ def main() -> None:
             "matrix_env\\Scripts\\activate # On Windows\n"
             "\n"
             "Then run this program again."
-        )
+         )
     else:
+        missing = []
         print("\nLOADING STATUS: Loading programs...\n")
         for package in dependencies.keys():
             try:
