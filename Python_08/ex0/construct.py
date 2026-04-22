@@ -20,6 +20,7 @@ def outside_venv() -> None:
     print("\nMATRIX STATUS: You're still plugged in\n")
     print(f"Current Python: {sys.executable}")
     print("Virtual Environment: None detected\n")
+    print(f"Package installation path:\n{site.getsitepackages()[0]}\n")
     print(
         "WARNING: You're in the global environment!\n"
         "The machines can see everything you install.\n"

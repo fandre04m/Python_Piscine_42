@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 import os
-import sys
 
 
 def load_config() -> bool:
+    original_env = dict(os.environ)
     try:
         from dotenv import load_dotenv
         load_dotenv()
     except ImportError:
-        print(
+        raise RuntimeError(
             "Could not find 'dotenv' package\n"
             "To install, run 'pip install python-dotenv'"
         )
-        sys.exit(1)
     mode = os.getenv("MATRIX_MODE", "production")
     if mode not in ("production", "development"):
         raise ValueError(
@@ -27,6 +26,9 @@ def load_config() -> bool:
     missing = False
     print("Configuration loaded:")
     print(f"Mode: {mode}")
+    if mode == "development":
+        db_url = "local"
+        log = "DEBUG"
     if db_url:
         print(f"Database: Connected to {db_url} instance")
     else:
@@ -52,15 +54,27 @@ def load_config() -> bool:
         print("[OK] .env file properly configured")
     else:
         print("[WARN] .env file not found - Using default values")
-    print("[OK] Production overrides available")
+    overrides = []
+    for key in [
+        "MATRIX_MODE", "DATABASE_URL",
+        "API_KEY", "LOG_LEVEL", "ZION_ENDPOINT"
+    ]:
+        if key in original_env:
+            overrides.append(key)
+    if overrides:
+        print(
+            f"[INFO] Environment overrides detected: {', '.join(overrides)}"
+        )
+    else:
+        print("[OK] Production overrides available")
     return missing
 
 
 def main() -> None:
     print("\nORACLE STATUS: Reading the Matrix...\n")
     try:
-        is_missing = load_config()
-        if is_missing:
+        has_missing = load_config()
+        if has_missing:
             print("\nThe Oracle cannot see all configurations")
         else:
             print("\nThe Oracle sees all configurations.")
