@@ -80,38 +80,38 @@ def main() -> None:
     if not (sys.prefix != sys.base_prefix):
         print("\nMATRIX STATUS: You're still plugged in\n")
         print(
-            "To enter the construct, run:\n"
+            "If you don't want to polute the current environment,"
+            " enter the construct by:\n"
             "python3 -m venv matrix_env\n"
             "source matrix_env/bin/activate # On Unix\n"
             "matrix_env\\Scripts\\activate # On Windows\n"
             "\n"
             "Then run this program again."
          )
+    missing = []
+    print("\nLOADING STATUS: Loading programs...\n")
+    for package in dependencies.keys():
+        try:
+            importlib.import_module(package)
+        except ImportError:
+            missing.append(package)
+    print("Checking dependencies:")
+    if missing:
+        for package in missing:
+            print(f"[KO] {package} package missing")
+        print(
+            "\nTo install with pip: 'pip install -r requirements.txt'\n"
+            "To install with poetry: 'poetry install'"
+        )
     else:
-        missing = []
-        print("\nLOADING STATUS: Loading programs...\n")
-        for package in dependencies.keys():
-            try:
-                importlib.import_module(package)
-            except ImportError:
-                missing.append(package)
-        print("Checking dependencies:")
-        if missing:
-            for package in missing:
-                print(f"[KO] {package} package missing")
-            print(
-                "\nTo install with pip: 'pip install -r requirements.txt'\n"
-                "To install with poetry: 'poetry install'"
-            )
-        else:
-            versions = []
-            for package, status in dependencies.items():
-                ver = version(package)
-                versions.append(ver)
-                print(f"[OK] {package} ({ver}) - {status}")
-            print()
-            matrix_organizer()
-            compare_dependencies(versions)
+        versions = []
+        for package, status in dependencies.items():
+            ver = version(package)
+            versions.append(ver)
+            print(f"[OK] {package} ({ver}) - {status}")
+        print()
+        matrix_organizer()
+        compare_dependencies(versions)
 
 
 if __name__ == "__main__":
