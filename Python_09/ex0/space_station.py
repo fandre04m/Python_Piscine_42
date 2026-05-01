@@ -2,6 +2,9 @@
 from pydantic import BaseModel, Field, ValidationError
 from datetime import datetime
 from typing import Optional
+# import json
+# import csv
+# from space_stations import SPACE_STATIONS
 
 
 class SpaceStation(BaseModel):
@@ -17,8 +20,12 @@ class SpaceStation(BaseModel):
 
 def station_monitor() -> None:
     print("Space Station Data Validation")
+    # with open("space_stations.json", "r") as f:
+    #     data = json.load(f)
     try:
-        station_1 = SpaceStation(
+        # for space_station in data:
+        #     station = SpaceStation(**space_station)
+        station = SpaceStation(
             station_id="ISS001",
             name="International Space Station",
             crew_size=6,
@@ -30,19 +37,21 @@ def station_monitor() -> None:
         print("=" * 42)
         print("Valid station created:")
         print(
-            f"ID: {station_1.station_id}\n"
-            f"Name: {station_1.name}\n"
-            f"Crew: {station_1.crew_size} people\n"
-            f"Power: {station_1.power_level}%\n"
-            f"Oxygen: {station_1.oxygen_level}%\n"
+            f"ID: {station.station_id}\n"
+            f"Name: {station.name}\n"
+            f"Crew: {station.crew_size} people\n"
+            f"Power: {station.power_level}%\n"
+            f"Oxygen: {station.oxygen_level}%\n"
             "Status: "
-            f"{'Operational' if station_1.is_operational else 'Offline'}\n"
-            # f"Last maintenance: {station_1.last_maintenance}"
+            f"{'Operational' if station.is_operational else 'Offline'}\n"
+            f"Last maintenance: {station.last_maintenance}"
         )
-        print("=" * 42)
+        if station.notes:
+            print(f"Notes: {station.notes}\n")
     except ValidationError as e:
         for error in e.errors():
             print(f"{error['loc']} {error['msg']}")
+    print("=" * 42)
     print("Expected validation error:")
     try:
         station_2 = SpaceStation(
