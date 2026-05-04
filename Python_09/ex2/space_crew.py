@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from datetime import datetime
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, ValidationError, model_validator
 from enum import Enum
 from typing import List
 from typing_extensions import Self
+from space_missions import SPACE_MISSIONS
 
 
 class Rank(str, Enum):
@@ -30,7 +31,7 @@ class SpaceMission(BaseModel):
     destination: str = Field(min_length=3, max_length=50)
     launch_date: datetime
     duration_days: int = Field(ge=1, le=3650)
-    crew: List[CrewMember] = Field(ge=1, le=12)
+    crew: List[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = Field(default="planned")
     budget_millions: float = Field(ge=1.0, le=10000.0)
 
@@ -40,8 +41,54 @@ class SpaceMission(BaseModel):
             raise ValueError(
                 "Mission ID must start with 'M'"
             )
-        if Rank.commander not in self.crew or Rank.captain not in self.crew:
+        if not any(
+            member.rank in (Rank.commander, Rank.captain)
+            for member in self.crew
+        ):
             raise ValueError(
                 "Must have at least one Commander or Captain"
             )
+        experienced = 0
+        for member in self.crew:
+            if member.years_experience >= 5:
+                experienced += 1
+            if not member.is_active:
+                raise ValueError(
+                    "All crew members must be active"
+                )
+        half_crew = (len(self.crew) + 1) // 2
+        if self.duration_days > 365 and not experienced >= half_crew:
+            raise ValueError(
+                "Long missions (> 365 days) "
+                "need 50% experienced crew (5+ years)"
+            )
         return self
+
+
+def validate_mission() -> None:
+    print("Space Mission Crew Validation")
+    for space_mission in SPACE_MISSIONS:
+        try:
+            mission = SpaceMission(**space_mission)
+            print("=" * 42)
+            print("Valid mission created:")
+            print(
+                f"Mission: {mission.mission_name}\n"
+                f"ID: {mission.mission_id}\n"
+                f"Destination: {mission.destination}\n"
+                f"Duration: {mission.duration_days} days\n"
+                f"Budget: ${mission.budget_millions}M\n"
+                f"Crew size: {len(mission.crew)}"
+            )
+            for member in mission.crew:
+                name = member.name
+                rank = member.rank
+                spec = member.specialization
+                print(f"- {name} ({rank}) - {spec}")
+        except ValidationError as e:
+            for error in e.errors():
+                print(error["msg"])
+
+
+if __name__ == "__main__":
+    validate_mission()
