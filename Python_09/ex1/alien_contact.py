@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from typing_extensions import Self
 from enum import Enum
 from pydantic import BaseModel, Field, ValidationError, model_validator
@@ -46,7 +46,7 @@ class AlienContact(BaseModel):
         return self
 
 
-alien_contacts = [
+alien_contacts: List[Dict[str, Any]] = [
     {
         'contact_id': 'AC_2024_001',
         'timestamp': '2025-03-20T04:32:54',

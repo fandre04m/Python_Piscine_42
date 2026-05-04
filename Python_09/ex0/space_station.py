@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pydantic import BaseModel, Field, ValidationError
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Any, List, Dict
 # import json
 # import csv
 # from space_stations import SPACE_STATIONS
@@ -18,7 +18,7 @@ class SpaceStation(BaseModel):
     notes: Optional[str] = Field(max_length=200)
 
 
-space_stations = [
+space_stations: List[Dict[str, Any]] = [
     {
         'station_id': 'ISS001',
         'name': 'International Space Station',

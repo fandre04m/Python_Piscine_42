@@ -2,7 +2,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, ValidationError, model_validator
 from enum import Enum
-from typing import List
+from typing import List, Dict, Any
 from typing_extensions import Self
 # from space_missions import SPACE_MISSIONS
 
@@ -65,7 +65,7 @@ class SpaceMission(BaseModel):
         return self
 
 
-space_missions = [
+space_missions: List[Dict[str, Any]] = [
     {
         'mission_id': 'M2024_MARS',
         'mission_name': 'Mars Colony Establishment',
