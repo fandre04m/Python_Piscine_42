@@ -46,63 +46,55 @@ class AlienContact(BaseModel):
         return self
 
 
-def report_checker() -> None:
+alien_contacts = [
+    {
+        'contact_id': 'AC_2024_001',
+        'timestamp': '2025-03-20T04:32:54',
+        'location': 'Area 51, Nevada',
+        'contact_type': 'radio',
+        'signal_strength': 8.5,
+        'duration_minutes': 45,
+        'witness_count': 5,
+        'message_received': 'Greetings from Zeta Reticuli'
+    },
+    {
+        'contact_id': 'AC_2024_001',
+        'timestamp': '2025-03-20T04:32:54',
+        'location': 'Area 51, Nevada',
+        'contact_type': 'telepathic',
+        'signal_strength': 8.5,
+        'duration_minutes': 45,
+        'witness_count': 2,
+        'message_received': 'Greetings from Zeta Reticuli'
+    }
+]
+
+
+def main() -> None:
     print("Alien Contact Log Validation")
     print("=" * 42)
-    try:
-        # for contact in ALIEN_CONTACTS:
-        #     report = AlienContact(**contact)
-        report = AlienContact(
-            contact_id="AC_2024_001",
-            timestamp=datetime.fromisoformat("2025-03-20T04:32:54"),
-            location="Area 51, Nevada",
-            contact_type=ContactType.rad,
-            signal_strength=8.5,
-            duration_minutes=45,
-            witness_count=5,
-            message_received="Greetings from Zeta Reticuli"
-        )
-        print("Valid contact report:")
-        print(
-                f"ID: {report.contact_id}\n"
-                f"Type: {report.contact_type}\n"
-                f"Location: {report.location}\n"
-                f"Signal: {report.signal_strength}/10\n"
-                f"Duration: {report.duration_minutes} minutes\n"
-                f"Witnesses: {report.witness_count}"
-        )
-        if report.message_received:
-            print(f"Message: '{report.message_received}'\n")
-    except ValidationError as e:
-        for error in e.errors():
-            print(f"{error['msg']}")
-    print("=" * 42)
-    print("Expected validation error:")
-    try:
-        bad_rep = AlienContact(
-            contact_id="AC_2024_001",
-            timestamp=datetime.fromisoformat("2025-03-20T04:32:54"),
-            location="Area 51, Nevada",
-            contact_type=ContactType.tele,
-            signal_strength=8.5,
-            duration_minutes=45,
-            witness_count=2,
-            message_received="Greetings from Zeta Reticuli"
-        )
-        print("=" * 42)
-        print("Valid contact report:")
-        print(
-                f"ID: {bad_rep.contact_id}\n"
-                f"Type: {bad_rep.contact_type}\n"
-                f"Location: {bad_rep.location}\n"
-                f"Signal: {bad_rep.signal_strength}/10\n"
-                f"Duration: {bad_rep.duration_minutes} minutes\n"
-                f"Witnesses: {bad_rep.witness_count}\n"
-        )
-    except ValidationError as e:
-        for error in e.errors():
-            print(error['msg'].split(", ")[-1])
+    for contact in alien_contacts:
+        try:
+            report = AlienContact(**contact)
+            print("Valid contact report:")
+            print(
+                    f"ID: {report.contact_id}\n"
+                    f"Type: {report.contact_type}\n"
+                    f"Location: {report.location}\n"
+                    f"Signal: {report.signal_strength}/10\n"
+                    f"Duration: {report.duration_minutes} minutes\n"
+                    f"Witnesses: {report.witness_count}"
+            )
+            if report.message_received:
+                print(f"Message: '{report.message_received}'")
+            print()
+        except ValidationError as e:
+            print("=" * 42)
+            print("Expected validation error:")
+            for error in e.errors():
+                print(error['msg'])
+            print()
 
 
 if __name__ == "__main__":
-    report_checker()
+    main()

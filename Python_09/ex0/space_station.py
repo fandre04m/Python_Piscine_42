@@ -18,57 +18,56 @@ class SpaceStation(BaseModel):
     notes: Optional[str] = Field(max_length=200)
 
 
-def station_monitor() -> None:
+space_stations = [
+    {
+        'station_id': 'ISS001',
+        'name': 'International Space Station',
+        'crew_size': 6,
+        'power_level': 85.5,
+        'oxygen_level': 92.3,
+        'last_maintenance': '2077-03-20T10:45:00',
+        'notes': None
+    },
+    {
+        'station_id': 'ISS001',
+        'name': 'International Space Station',
+        'crew_size': 22,
+        'power_level': 85.5,
+        'oxygen_level': 92.3,
+        'last_maintenance': '2077-03-20T10:45:00',
+        'notes': None
+    }
+]
+
+
+def main() -> None:
     print("Space Station Data Validation")
     # with open("space_stations.json", "r") as f:
     #     data = json.load(f)
-    try:
-        # for space_station in data:
-        #     station = SpaceStation(**space_station)
-        station = SpaceStation(
-            station_id="ISS001",
-            name="International Space Station",
-            crew_size=6,
-            power_level=85.5,
-            oxygen_level=92.3,
-            last_maintenance=datetime.fromisoformat("2077-03-20T10:45:00"),
-            notes=None
-        )
-        print("=" * 42)
-        print("Valid station created:")
-        print(
-            f"ID: {station.station_id}\n"
-            f"Name: {station.name}\n"
-            f"Crew: {station.crew_size} people\n"
-            f"Power: {station.power_level}%\n"
-            f"Oxygen: {station.oxygen_level}%\n"
-            "Status: "
-            f"{'Operational' if station.is_operational else 'Offline'}\n"
-            f"Last maintenance: {station.last_maintenance}"
-        )
-        if station.notes:
-            print(f"Notes: {station.notes}\n")
-    except ValidationError as e:
-        for error in e.errors():
-            print(f"{error['loc']} {error['msg']}")
-    print("=" * 42)
-    print("Expected validation error:")
-    try:
-        station_2 = SpaceStation(
-            station_id="ISS002",
-            name="International Space Station",
-            crew_size=22,
-            power_level=85.5,
-            oxygen_level=92.3,
-            last_maintenance=datetime.fromisoformat("2074-08-22T17:45:00"),
-            is_operational=False,
-            notes="Needs major engine repairs"
-        )
-        print(f"ID: {station_2.station_id}")
-    except ValidationError as e:
-        for error in e.errors():
-            print(f"{error['loc']} {error['msg']}")
+    for space_station in space_stations:
+        try:
+            station = SpaceStation(**space_station)
+            print("=" * 42)
+            print("Valid station created:")
+            print(
+                f"ID: {station.station_id}\n"
+                f"Name: {station.name}\n"
+                f"Crew: {station.crew_size} people\n"
+                f"Power: {station.power_level}%\n"
+                f"Oxygen: {station.oxygen_level}%\n"
+                "Status: "
+                f"{'Operational' if station.is_operational else 'Offline'}"
+            )
+            if station.notes:
+                print(f"Notes: {station.notes}")
+            print()
+        except ValidationError as e:
+            print("=" * 42)
+            print("Expected validation error:")
+            for error in e.errors():
+                print(f"{error['loc']} {error['msg']}")
+            print()
 
 
 if __name__ == "__main__":
-    station_monitor()
+    main()

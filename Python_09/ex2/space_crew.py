@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, ValidationError, model_validator
 from enum import Enum
 from typing import List
 from typing_extensions import Self
-from space_missions import SPACE_MISSIONS
+# from space_missions import SPACE_MISSIONS
 
 
 class Rank(str, Enum):
@@ -65,9 +65,81 @@ class SpaceMission(BaseModel):
         return self
 
 
-def validate_mission() -> None:
+space_missions = [
+    {
+        'mission_id': 'M2024_MARS',
+        'mission_name': 'Mars Colony Establishment',
+        'destination': 'Mars',
+        'launch_date': '2024-03-20T00:00:00',
+        'duration_days': 900,
+        'crew': [
+            {
+                'member_id': 'CM001',
+                'name': 'Sarah Connor',
+                'rank': 'commander',
+                'age': 47,
+                'specialization': 'Mission command',
+                'years_experience': 17
+            },
+            {
+                'member_id': 'CM002',
+                'name': 'John Smith',
+                'rank': 'lieutenant',
+                'age': 38,
+                'specialization': 'Navigation',
+                'years_experience': 12
+            },
+            {
+                'member_id': 'CM003',
+                'name': 'Alice Johnson',
+                'rank': 'officer',
+                'age': 25,
+                'specialization': 'Engineering',
+                'years_experience': 4
+            }
+        ],
+        'budget_millions': 2500.0
+    },
+    {
+        'mission_id': 'M2024_MARS',
+        'mission_name': 'Mars Colony Establishment',
+        'destination': 'Mars',
+        'launch_date': '2024-03-20T00:00:00',
+        'duration_days': 900,
+        'crew': [
+            {
+                'member_id': 'CM001',
+                'name': 'Sarah Connor',
+                'rank': 'officer',
+                'age': 47,
+                'specialization': 'Mission command',
+                'years_experience': 17
+            },
+            {
+                'member_id': 'CM002',
+                'name': 'John Smith',
+                'rank': 'lieutenant',
+                'age': 38,
+                'specialization': 'Navigation',
+                'years_experience': 12
+            },
+            {
+                'member_id': 'CM003',
+                'name': 'Alice Johnson',
+                'rank': 'officer',
+                'age': 25,
+                'specialization': 'Engineering',
+                'years_experience': 4
+            }
+        ],
+        'budget_millions': 2500.0
+    }
+]
+
+
+def main() -> None:
     print("Space Mission Crew Validation")
-    for space_mission in SPACE_MISSIONS:
+    for space_mission in space_missions:
         try:
             mission = SpaceMission(**space_mission)
             print("=" * 42)
@@ -85,10 +157,14 @@ def validate_mission() -> None:
                 rank = member.rank
                 spec = member.specialization
                 print(f"- {name} ({rank}) - {spec}")
+            print()
         except ValidationError as e:
+            print("=" * 42)
+            print("Expected validation error:")
             for error in e.errors():
                 print(error["msg"])
+            print()
 
 
 if __name__ == "__main__":
-    validate_mission()
+    main()
