@@ -45,7 +45,7 @@ def spell_dispatcher() -> Callable[[Any], str]:
 
     @spell_system.register(str)
     def enchant(spell_type: str) -> str:
-        return f"Aplied enchantment {spell_type}"
+        return f"Applied enchantment '{spell_type}'"
 
     @spell_system.register(list)
     def multi_cast(spell_type: list) -> str:
@@ -54,17 +54,15 @@ def spell_dispatcher() -> Callable[[Any], str]:
     return spell_system
 
 
-spells = [10, 20, 30, 40]
-
-
 def main() -> None:
     print()
     print("Testing spell reducer...")
+    spell_powers = [10, 20, 30, 40]
     try:
         print(
-            f"Sum: {spell_reducer(spells, 'add')}\n"
-            f"Product: {spell_reducer(spells, 'multiply')}\n"
-            f"Max: {spell_reducer(spells, 'max')}"
+            f"Sum: {spell_reducer(spell_powers, 'add')}\n"
+            f"Product: {spell_reducer(spell_powers, 'multiply')}\n"
+            f"Max: {spell_reducer(spell_powers, 'max')}"
         )
     except ValueError as e:
         print(f"Error: {e}")
@@ -90,6 +88,14 @@ def main() -> None:
     )
     # print(memoized_fibonacci.cache_info())
     print()
+    print("Testing spell dispatcher...")
+    multi_spell = [24, "Manacoat", 42.2]
+    spell_sys = spell_dispatcher()
+    print(
+        f"Damage spell: {spell_sys(42)}\n"
+        f"Enchantment: {spell_sys('Stoneskin')}\n"
+        f"Multi-cast: {len(multi_spell)} spells -> {spell_sys(multi_spell)}"
+    )
 
 
 if __name__ == "__main__":
